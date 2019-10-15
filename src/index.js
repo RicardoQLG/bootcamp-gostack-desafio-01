@@ -48,6 +48,21 @@ server.delete('/projects/:id', (req, res) => {
   projects = projects.filter(project => project.id !== id);
 
   return res.json({ ok: true });
+});
+
+server.post('/projects/:id/tasks', (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  const [project] = projects.filter(project => project.id === id);
+
+  if(!project) {
+    res.status(400).json({ error: `Project with id ${id} does not exist`});
+  }
+
+  project.tasks.push(title);
+
+  return res.json(project);
 })
 
 server.listen(3333);
