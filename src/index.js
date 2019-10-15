@@ -6,6 +6,20 @@ let projects = [];
 
 server.use(express.json());
 
+function checkProjectId (req, res, next) {
+  const { id } = req.params;
+
+  const [project] = projects.filter(project => project.id === id);
+
+  if(!project) {
+    res.status(400).json({ error: `Project with id ${id} does not exist`});
+  }
+
+  req.project = project;
+
+  return next();
+}
+
 server.post('/projects', (req, res) => {
   const { id } = req.body;
   const useExists = projects.filter(project => {
@@ -28,21 +42,17 @@ server.get('/projects', (req, res) => {
   return res.json(projects);
 });
 
-server.put('/projects/:id', (req, res) => {
+server.put('/projects/:id', checkProjectId, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  const [project] = projects.filter(project => project.id === id);
-
-  if(!project) {
-    res.status(400).json({ error: `Project with id ${id} does not exist`});
-  }
+  const { project } = req;
 
   project.title = title;
 
   return res.json(project);
 });
 
-server.delete('/projects/:id', (req, res) => {
+server.delete('/projects/:id', checkProjectId, (req, res) => {
   const { id } = req.params;
 
   projects = projects.filter(project => project.id !== id);
@@ -50,15 +60,11 @@ server.delete('/projects/:id', (req, res) => {
   return res.json({ ok: true });
 });
 
-server.post('/projects/:id/tasks', (req, res) => {
+server.post('/projects/:id/tasks', checkProjectId, (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
 
-  const [project] = projects.filter(project => project.id === id);
-
-  if(!project) {
-    res.status(400).json({ error: `Project with id ${id} does not exist`});
-  }
+  const { project } = req;
 
   project.tasks.push(title);
 
