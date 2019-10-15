@@ -13,7 +13,7 @@ server.post('/projects', (req, res) => {
   });
 
   if (useExists.length) {
-    return res.status(401).json({error: 'Project id already exists'})
+    return res.status(400).json({error: "Project id already exists"})
   }
 
   const project = req.body;
@@ -26,6 +26,20 @@ server.post('/projects', (req, res) => {
 
 server.get('/projects', (req, res) => {
   return res.json(projects);
+});
+
+server.put('/projects/:id', (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  const [project] = projects.filter(project => project.id === id);
+
+  if(!project) {
+    res.status(400).json({ error: `Project with id ${id} does not exist`});
+  }
+
+  project.title = title;
+
+  return res.json(project);
 });
 
 server.listen(3333);
