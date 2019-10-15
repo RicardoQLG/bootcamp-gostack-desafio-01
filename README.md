@@ -1,2 +1,1 @@
-# bootcamp-gostack-desafio-01
-Primeiro desafio do Bootcamp da Rocketseat
+# Desafio 01 do Bootcamp da Rocketseat
