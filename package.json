@@ -1,0 +1,15 @@
+{
+  "name": "desafio-01",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:RicardoQLG/bootcamp-gostack-desafio-01.git",
+  "author": "Ricardo Godoy <rq.godoy@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.3"
+  }
+}
