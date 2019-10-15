@@ -10,7 +10,7 @@ server.use(express.json());
 function checkProjectId (req, res, next) {
   const { id } = req.params;
 
-  const [project] = projects.filter(project => project.id === id);
+  const project = projects.find(project => project.id === id);
 
   if(!project) {
     return res.status(400).json({ error: `Project with id ${id} does not exist`});
