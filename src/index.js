@@ -2,7 +2,7 @@ const express = require('express');
 
 const server = express();
 
-const projects = [];
+let projects = [];
 
 server.use(express.json());
 
@@ -41,5 +41,13 @@ server.put('/projects/:id', (req, res) => {
 
   return res.json(project);
 });
+
+server.delete('/projects/:id', (req, res) => {
+  const { id } = req.params;
+
+  projects = projects.filter(project => project.id !== id);
+
+  return res.json({ ok: true });
+})
 
 server.listen(3333);
