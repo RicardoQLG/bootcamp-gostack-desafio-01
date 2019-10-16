@@ -2,7 +2,7 @@ const express = require('express');
 
 const server = express();
 
-let projects = [];
+const projects = [];
 let requests_count = 0;
 
 server.use(express.json());
@@ -63,7 +63,9 @@ server.put('/projects/:id', checkProjectId, (req, res) => {
 server.delete('/projects/:id', checkProjectId, (req, res) => {
   const { id } = req.params;
 
-  projects = projects.filter(project => project.id !== id);
+  projectIndex = projects.findIndex(project => project.id === id);
+
+  projects.splice(projectIndex, 1);
 
   return res.json({ ok: true });
 });
